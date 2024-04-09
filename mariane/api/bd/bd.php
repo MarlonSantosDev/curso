@@ -5,8 +5,8 @@ class BD{
 
     public function mysql(){
         $host = "localhost"; // Mudar para localhost
-        $usuario = "root";
-        $senha = 'senha'; // Mudar para sua senha
+        $usuario = "usuario";
+        $senha = "senha"; // Mudar para sua senha
         $banco = "banco";
 
         try {
@@ -20,14 +20,23 @@ class BD{
             ));
             exit;
         }
+
         
+        // $MySQL = mysqli_connect($host, $usuario, $senha, $banco);
+        // return $MySQL;
+        // if (!$conn) {
+        //     echo json_encode(array(
+        //         "status" => "ERRO: Não foi possível conectar no banco de dados! ".($e->getMessage())
+        //     ));
+        //     exit;
+        // }
     }
     
     public function oracle(){
             
-        $host = 'loclahost';
-        $porta = 'porta';
-        $sid = 'sid';
+        $host = 'IPservidor';
+        $porta = '1521';
+        $sid = 'wint';
         $usuario = 'usuario';
         $senha = 'senha';
 

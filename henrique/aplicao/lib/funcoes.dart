@@ -4,7 +4,7 @@ import 'package:crud/model/funcionario_model.dart';
 import 'package:http/http.dart' as http;
 import 'model/setor_model.dart';
 
-String host = "http://localhost:777/api/index.php";
+String host = "http://localhost:7777/api/index.php";
 
 todosOsFuncionarios({required List<FuncionarioModel> funcionarios}) {
   limparPrint();
@@ -51,29 +51,8 @@ cadastrarFuncionario() async {
 }
 
 cadastrarSetor() async {
-  try {
-    limparPrint();
-    SetorModel setor = SetorModel();
-    printO("...::: Cadastrar Setor :::...");
-    printO("Nome setor funcionario:");
-    setor.setor = stdin.readLineSync()!;
-
-    var response = await http.post(
-      Uri.parse(host),
-      body: {
-        'acao': 'cadastro_setor',
-        'nome': '${setor.setor}',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      printW("Cadastrado com sucesso, setor: ${response.body}");
-    } else {
-      printW("Erro ao fazer o cadastro:\n ${response.body}");
-    }
-  } catch (e) {
-    printE("Erro setor: $e");
-  }
+  limparPrint();
+  printE('Implementar função');
 }
 
 atualizarFuncionario() async {
@@ -99,15 +78,8 @@ Future<List<FuncionarioModel>> getFuncionarios() async {
 }
 
 Future<List<SetorModel>> getSetor() async {
-  try {
-    final res = await http.get(Uri.parse("$host?acao=setor"));
-    List retono = jsonDecode(res.body);
-
-    return retono.map((item) => SetorModel.fromJson(item)).toList();
-  } catch (e) {
-    printE("Erro ao getSetor funcionarios: ");
-    return [];
-  }
+  printE('Implementar getSetor');
+  return [];
 }
 
 void printW(text) {

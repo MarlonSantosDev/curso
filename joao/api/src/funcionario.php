@@ -20,7 +20,6 @@ class Funcionario{
                                      from funcionario f
                                          , setor s
                                     where f.id_setor = s.id
-                                    AND f.matricula = 7
                                     order by f.matricula desc");
             $query->execute();
             $result = $query->fetchAll(\PDO::FETCH_ASSOC);
@@ -56,7 +55,7 @@ class Funcionario{
         try {
             $conexao = $this->banco->mysql();
 
-            $query = $conexao->prepare("UPDATE funcionario set nome = '".$_POST['nome']."', bloqueado = '".$_POST['bloqueado']."', id_setor = '".$_POST['id_setor']."' WHERE matricula = ". $_POST['matricula']);
+            $query = $conexao->prepare("update funcionario set nome = '".$_POST['nome']."', bloqueado = '".$_POST['bloqueado']."', id_setor = '".$_POST['id_setor']."' WHERE matricula = ". $_POST['matricula']);
             $query->execute();
             echo json_encode($query->rowCount());
 

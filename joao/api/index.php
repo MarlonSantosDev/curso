@@ -22,13 +22,11 @@ if ($_SERVER["REQUEST_METHOD"] == 'GET' && isset($_GET["acao"])) {
   switch($acao){
     case 'funcionario':
       include('src/funcionario.php');
-      $f = new Funcionario();
-      $f->listarFuncionarios();
+      $funcionario = new Funcionario();
+      $funcionario->listarFuncionarios();
       break;
     case 'setor':
       include('src/setor.php');
-      $setor = new Setor();
-      $setor->listarSetor();
       break;
     case 'relatorio':
       include('src/relatorio.php');
@@ -45,8 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == 'GET' && isset($_GET["acao"])) {
       break;
     case 'cadastro_setor':
       include('src/setor.php');
-      $setor = new Setor();
-      $setor->cadastro_setor();
       break;
     case 'atualizar_funcionario':
       include('src/funcionario.php');

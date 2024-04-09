@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:crud/model/funcionario_model.dart';
+import 'package:aplicacao/model/funcionario_model.dart';
 import 'package:http/http.dart' as http;
-import 'model/setor_model.dart';
+import 'package:aplicacao/model/setor_model.dart';
 
-String host = "http://localhost:777/api/index.php";
+String host = "http://localhost/api/index.php";
 
 todosOsFuncionarios({required List<FuncionarioModel> funcionarios}) {
   limparPrint();
@@ -54,31 +54,90 @@ cadastrarSetor() async {
   try {
     limparPrint();
     SetorModel setor = SetorModel();
-    printO("...::: Cadastrar Setor :::...");
-    printO("Nome setor funcionario:");
+
+    printO("...::: Cadastrar setor :::...");
+    printO("Nome do novo setor:");
     setor.setor = stdin.readLineSync()!;
 
     var response = await http.post(
       Uri.parse(host),
       body: {
         'acao': 'cadastro_setor',
-        'nome': '${setor.setor}',
+        'setor': '${setor.setor}',
       },
     );
 
     if (response.statusCode == 200) {
-      printW("Cadastrado com sucesso, setor: ${response.body}");
+      printW("Setor Cadastrado com sucesso, id: ${response.body}");
     } else {
       printW("Erro ao fazer o cadastro:\n ${response.body}");
     }
   } catch (e) {
-    printE("Erro setor: $e");
+    printE("Erro CadastrarSetor: $e");
   }
 }
 
 atualizarFuncionario() async {
-  limparPrint();
-  printE('Implementar função');
+  try {
+    limparPrint();
+    FuncionarioModel funcionarios = FuncionarioModel();
+    funcionarios.setor = SetorModel();
+    printO("...::: Atualizar funcionario :::...");
+    printO("Qual a matricula do funcionario?");
+    funcionarios.matricula = stdin.readLineSync()!;
+    printO("Qual o novo nome do funcionario?");
+    funcionarios.nome = stdin.readLineSync()!;
+    printO("Usuário bloqueado (S ou N)?");
+    funcionarios.bloqueado = stdin.readLineSync()!;
+    printO("Qual o código do setor?");
+    funcionarios.setor?.id = int.parse(stdin.readLineSync()!);
+    var response = await http.post(
+      Uri.parse(host),
+      body: {
+        'acao': 'atualizar_funcionario',
+        'matricula': '${funcionarios.matricula}',
+        'nome': '${funcionarios.nome}',
+        'bloqueado': '${funcionarios.bloqueado}',
+        'id_setor': '${funcionarios.setor?.id}',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      printW("Funcionario Atualizado com sucesso, matricula: ${response.body}");
+    } else {
+      printW("Erro ao fazer a atualização:\n ${response.body}");
+    }
+  } catch (e) {
+    printE("Erro AtualizarFuncionario: $e");
+  }
+}
+
+atualizarSetor() async {
+  try {
+    limparPrint();
+    SetorModel setor = SetorModel();
+    printO("...::: Atualizar setor :::...");
+    printO("Qual o id do Setor?");
+    setor.id = int.parse(stdin.readLineSync()!);
+    printO("Qual o novo nome do setor?");
+    setor.setor = stdin.readLineSync();
+    var response = await http.post(
+      Uri.parse(host),
+      body: {
+        'acao': 'atualizar_setor',
+        'id': '${setor.id}',
+        'setor': '${setor.setor}',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      printW("Setor Atualizado com sucesso, id: ${response.body}");
+    } else {
+      printW("Erro ao fazer a atualização:\n ${response.body}");
+    }
+  } catch (e) {
+    printE("Erro AtualizarSetor: $e");
+  }
 }
 
 relatorio() {
@@ -105,7 +164,19 @@ Future<List<SetorModel>> getSetor() async {
 
     return retono.map((item) => SetorModel.fromJson(item)).toList();
   } catch (e) {
-    printE("Erro ao getSetor funcionarios: ");
+    printE("Erro ao carregar setor: $e");
+    return [];
+  }
+}
+
+Future<List<SetorModel>> res() async {
+  try {
+    final res = await http.get(Uri.parse("$host?acao=setor"));
+    List retono = jsonDecode(res.body);
+
+    return retono.map((item) => SetorModel.fromJson(item)).toList();
+  } catch (e) {
+    printE("Erro ao carregar setor: $e");
     return [];
   }
 }

@@ -4,10 +4,10 @@
 class BD{
 
     public function mysql(){
-        $host = "localhost"; // Mudar para localhost
+        $host = "127.0.0.1"; 
         $usuario = "root";
-        $senha = 'senha'; // Mudar para sua senha
-        $banco = "banco";
+        $senha = '123456'
+        $banco = "curso";
 
         try {
             $MySQL = new \PDO('mysql:host=' . $host . ';dbname=' . $banco, $usuario, $senha);
@@ -20,16 +20,25 @@ class BD{
             ));
             exit;
         }
+
         
+        // $MySQL = mysqli_connect($host, $usuario, $senha, $banco);
+        // return $MySQL;
+        // if (!$conn) {
+        //     echo json_encode(array(
+        //         "status" => "ERRO: Não foi possível conectar no banco de dados! ".($e->getMessage())
+        //     ));
+        //     exit;
+        // }
     }
     
     public function oracle(){
             
-        $host = 'loclahost';
-        $porta = 'porta';
-        $sid = 'sid';
-        $usuario = 'usuario';
-        $senha = 'senha';
+        $host = '127.0.0.1';
+        $porta = '3306';
+        $sid = 'wint';
+        $usuario = 'root';
+        $senha = '123456';
 
         $tns = "(DESCRIPTION =
                         (ADDRESS_LIST =

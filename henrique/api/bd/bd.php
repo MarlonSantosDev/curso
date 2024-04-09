@@ -4,13 +4,13 @@
 class BD{
 
     public function mysql(){
-        $host = "localhost"; // Mudar para localhost
+        $host = "localhost"; 
         $usuario = "root";
-        $senha = 'senha'; // Mudar para sua senha
-        $banco = "banco";
+        $senha = ''
+        $banco = "nome_do_banco";
 
         try {
-            $MySQL = new \PDO('mysql:host=' . $host . ';dbname=' . $banco, $usuario, $senha);
+            $MySQL = new \PDO('mysql:host=localhost;dbname=nome_do_banco,root,senha');
             $MySQL->exec("set names utf8");
             $MySQL->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION); //habilitando erros do PDO
             return $MySQL;
@@ -21,13 +21,21 @@ class BD{
             exit;
         }
         
+        // $MySQL = mysqli_connect($host, $usuario, $senha, $banco);
+        // return $MySQL;
+        // if (!$conn) {
+        //     echo json_encode(array(
+        //         "status" => "ERRO: Não foi possível conectar no banco de dados! ".($e->getMessage())
+        //     ));
+        //     exit;
+        // }
     }
     
     public function oracle(){
             
-        $host = 'loclahost';
-        $porta = 'porta';
-        $sid = 'sid';
+        $host = 'IPservidor';
+        $porta = '1521';
+        $sid = 'wint';
         $usuario = 'usuario';
         $senha = 'senha';
 

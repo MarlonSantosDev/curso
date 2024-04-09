@@ -22,17 +22,29 @@ if ($_SERVER["REQUEST_METHOD"] == 'GET' && isset($_GET["acao"])) {
   switch($acao){
     case 'funcionario':
       include('src/funcionario.php');
-      $f = new Funcionario();
-      $f->listarFuncionarios();
+      $funcionario = new Funcionario();
+      $funcionario->listarFuncionarios();
       break;
     case 'setor':
       include('src/setor.php');
       $setor = new Setor();
       $setor->listarSetor();
       break;
-    case 'relatorio':
+    case 'relatorio1':
       include('src/relatorio.php');
+      $relatorio = new Relatorio();
+      $relatorio->rel_FuncSetor();
       break;
+    case 'relatorio2':
+        include('src/relatorio.php');
+        $relatorio = new Relatorio();
+        $relatorio->rel_QdtFuncSetor();
+        break;
+    case 'relatorio3':
+        include('src/relatorio.php');
+        $relatorio = new Relatorio();
+        $relatorio->rel_QdtFuncAtivos();
+        break;
   }
 
 }else if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST["acao"])) {
@@ -53,6 +65,16 @@ if ($_SERVER["REQUEST_METHOD"] == 'GET' && isset($_GET["acao"])) {
       $funcionario = new Funcionario();
       $funcionario->atualizar_funcionarios();
       break;
+
+
+    case 'atualizar_setor':
+      include('src/setor.php');
+      $se = new Setor();
+      $se->atualizar_setor();
+      break;
+
+
+
   }
 }else{
   echo json_encode("METHOD OU ACAO INVALIDA ");

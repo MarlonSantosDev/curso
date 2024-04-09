@@ -1,7 +1,7 @@
 <?php
 include_once 'bd/bd.php';
 
-class Funcionario{
+class Setor {
 
     private $banco;
 
@@ -9,19 +9,14 @@ class Funcionario{
         $this->banco = new BD();
     }
 
-    public function listarFuncionarios(){
+    public function listarSetores(){
         try {
             $conexao = $this->banco->mysql();
-            $query = $conexao->prepare("select f.matricula
-                                             , f.nome
-                                             , f.bloqueado
-                                             , s.id
-                                             , s.setor
-                                     from funcionario f
-                                         , setor s
-                                    where f.id_setor = s.id
-                                    AND f.matricula = 7
-                                    order by f.matricula desc");
+            $query = $conexao->prepare("SELECT s.id,
+                                               s.setor
+                                               FROM setor s 
+                                               ORDER BY id DESC
+                                    ");
             $query->execute();
             $result = $query->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -36,10 +31,11 @@ class Funcionario{
         }
     }
 
-    public function cadastro_funcionarios(){
+    public function cadastrarSetor(){
         try {
             $conexao = $this->banco->mysql();
-            $query = $conexao->prepare("INSERT INTO funcionario (nome, bloqueado, id_setor) VALUES ('".$_POST['nome']."','S','". $_POST['id_setor'] ."')");
+            $query = $conexao->prepare("INSERT INTO setor (setor) 
+                                        VALUES ('".$_POST['setor']."')");
             $query->execute();
             echo json_encode($conexao->lastInsertId());
 
@@ -52,11 +48,11 @@ class Funcionario{
         }
     }
 
-    public function atualizar_funcionarios(){
+    public function atualizarSetor(){
         try {
             $conexao = $this->banco->mysql();
 
-            $query = $conexao->prepare("UPDATE funcionario set nome = '".$_POST['nome']."', bloqueado = '".$_POST['bloqueado']."', id_setor = '".$_POST['id_setor']."' WHERE matricula = ". $_POST['matricula']);
+            $query = $conexao->prepare("UPDATE setor SET setor = '".$_POST['setor']."' WHERE id = ".$_POST['id']);
             $query->execute();
             echo json_encode($query->rowCount());
 
@@ -70,3 +66,4 @@ class Funcionario{
     }
 
 }
+?>
